@@ -22,6 +22,11 @@ class AutoRebaseService
       author = pr.head.user.login
       comment_text = "@#{author} auto-rebase failed. Rebase manually."
 
+      p "---------------------"
+      p pr.number
+      p pr.rebaseable?
+      p "---------------------"
+
       if pr.rebaseable?
         rebase_with_master(branch) rescue post_failure_comment(pr, comment_text)
       else
