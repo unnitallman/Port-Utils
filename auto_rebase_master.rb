@@ -32,32 +32,28 @@ class AutoRebaseService
     end
 
     def rebase_with_master(pr)
-      head_repo   = pr.head.repo.full_name
       head_branch = pr.head.ref
-      base_repo   = pr.base.repo.full_name
       base_branch = pr.base.ref
 
       user_name = pr.user.login
       user_email = "#{user_name}@users.noreply.github.com"
 
-      results = []
+      git_commands = []
 
-      results << system("git config --global user.email \"#{user_email}\"")
-      results << system("git config --global user.name \"#{user_name}\"")
+      git_commands << "git config --global user.email \"#{user_email}\""
+      git_commands << "git config --global user.name \"#{user_name}\""
 
-      results << system("set -o xtrace")
-
-      results << system("git remote add fork https://github.com/#{repo}.git")
-      results << system("git fetch fork")
+      git_commands << "git remote add fork https://github.com/#{repo}.git"
+      git_commands << "git fetch fork"
 
       # do the rebase
-      results << system("git checkout fork/#{head_branch} -b #{head_branch}")
-      results << system("git rebase fork/#{base_branch}")
+      git_commands << "git checkout fork/#{head_branch} -b #{head_branch}"
+      git_commands << "git rebase fork/#{base_branch}"
 
       # push back
-      results << system("git push --force-with-lease fork #{head_branch}")
+      git_commands << "git push --force-with-lease fork #{head_branch}"
 
-      results.all?
+      system(git_commands.join(";"))
     end
 
     def open_pull_requests
