@@ -10,7 +10,7 @@ class AutoRebaseService
 
   def rebase_all_pull_requests!
     open_pull_requests.each do |pr|
-      rebase! pr
+      rebase pr
     end
   end
 
