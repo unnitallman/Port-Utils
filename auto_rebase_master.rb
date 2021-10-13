@@ -30,6 +30,7 @@ class AutoRebaseService
 
     def post_failure_comment(pr, comment_text)
       client.add_comment(pr.head.repo.full_name, pr.number, comment_text)
+      exit(1)
     end
 
     def rebase_with_master(pr)
@@ -41,24 +42,27 @@ class AutoRebaseService
       user_name = pr.user.login
       user_email = "#{user_name}@users.noreply.github.com"
 
-      `git remote set-url origin https://#{base_repo}.git`
-      `git config --global user.email "#{user_email}"`
-      `git config --global user.name "#{user_name}"`
+      results = []
+      results << system("git remote set-url origin https://github.com/#{base_repo}.git")
+      results << system("git config --global user.email \"#{user_email}\"")
+      results << system("git config --global user.name \"#{user_name}\"")
 
-      `git remote add fork https://#{head_repo}.git`
+      results << system("git remote add fork https://github.com/#{head_repo}.git")
 
-      `set -o xtrace`
+      results << system("set -o xtrace")
 
       # make sure branches are up-to-date
-      `git fetch origin #{base_branch}`
-      `git fetch fork #{head_branch}`
+      results << system("git fetch origin #{base_branch}")
+      results << system("git fetch fork #{head_branch}")
 
       # do the rebase
-      `git checkout -b fork/#{head_branch} fork/#{head_branch}`
-      `git rebase origin/#{base_branch}`
+      results << system("git checkout -b fork/#{head_branch} fork/#{head_branch}")
+      results << system("git rebase origin/#{base_branch}")
 
       # push back
-      `git push --force-with-lease fork fork/#{head_branch}:#{head_branch}`
+      results << system("git push --force-with-lease fork fork/#{head_branch}:#{head_branch}")
+
+      results.all? ? exit(0) : exit(1)
     end
 
     def open_pull_requests
