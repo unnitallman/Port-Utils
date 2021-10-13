@@ -47,17 +47,17 @@ class AutoRebaseService
 
       results << system("set -o xtrace")
 
-      # make sure branches are up-to-date
-      results << system("git fetch origin")
+      results << system("git remote add fork git@github.com:#{repo}.git")
+      results << system("git fetch fork")
 
       # do the rebase
-      results << system("git checkout origin/#{head_branch} -b #{head_branch}")
-      results << system("git rebase origin/#{base_branch}")
+      results << system("git checkout fork/#{head_branch} -b #{head_branch}")
+      results << system("git rebase fork/#{base_branch}")
 
       # push back
-      results << system("git push --force-with-lease origin #{head_branch}")
+      results << system("git push --force-with-lease fork #{head_branch}")
 
-      results.all?    
+      results.all?
     end
 
     def open_pull_requests
