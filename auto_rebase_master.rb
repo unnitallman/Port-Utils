@@ -22,7 +22,7 @@ class AutoRebaseService
       comment_text = "@#{author} auto-rebase failed. Rebase manually."
 
       if pr.rebaseable?
-        rebase_with_master(pr) rescue post_failure_comment(pr, comment_text)
+        rebase_with_master(pr) rescue post_failure_comment(pr, comment_text + " epic failure")
       else
         post_failure_comment(pr, comment_text)
       end
