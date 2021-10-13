@@ -5,7 +5,7 @@ class AutoRebaseService
 
   def initialize(token, repo)
     @repo   = repo 
-    @client = Octokit::Client.new(:access_token => token)
+    @client = Octokit::Client.new(access_token: token)
   end
 
   def rebase_all_pull_requests!
@@ -15,17 +15,22 @@ class AutoRebaseService
   end
 
   private 
+
     def rebase(pr_number)
       pr = client.pull_request(repo, pr_number)
       branch = pr.head.ref
       author = pr.head.user.login
+      comment_text = "@#{author} auto-rebase failed. Rebase manually."
 
       if pr.rebaseable?
-        rebase_with_master(branch)
+        rebase_with_master(branch) rescue post_failure_comment(pr, comment_text)
       else
-        comment_text = "@#{author} auto-rebase failed. Rebase manually."
-        client.add_comment(pr.head.repo.full_name, pr.number, comment_text)
+        post_failure_comment(pr, comment_text)
       end
+    end
+
+    def post_failure_comment(pr, comment_text)
+      client.add_comment(pr.head.repo.full_name, pr.number, comment_text)
     end
 
     def rebase_with_master(branch)
