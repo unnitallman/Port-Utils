@@ -22,7 +22,9 @@ class AutoRebaseService
       comment_text = "@#{author} auto-rebase failed. Rebase manually."
 
       if pr.rebaseable?
-        rebase_with_master(pr) rescue post_failure_comment(pr, comment_text + " epic failure")
+        unless rebase_with_master(pr) 
+          post_failure_comment(pr, comment_text)
+        end
       else
         post_failure_comment(pr, comment_text)
       end
@@ -62,7 +64,7 @@ class AutoRebaseService
       # push back
       results << system("git push --force-with-lease fork fork/#{head_branch}:#{head_branch}")
 
-      results.all? ? exit(0) : exit(1)
+      results.all?    
     end
 
     def open_pull_requests
