@@ -23,6 +23,7 @@ jobs:
     
     env: 
       AUTOREBASE_TOKEN: ${{ secrets.AUTOREBASE_TOKEN }}
+      REPO_NAME: unnitallman/Port-Utils
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
