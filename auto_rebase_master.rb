@@ -21,11 +21,7 @@ class AutoRebaseService
       author = pr.head.user.login
       comment_text = "@#{author} auto-rebase failed. Rebase manually."
 
-      if pr.rebaseable?
-        unless rebase_with_master(pr) 
-          post_failure_comment(pr, comment_text)
-        end
-      else
+      unless rebase_with_master(pr) 
         post_failure_comment(pr, comment_text)
       end
     end
