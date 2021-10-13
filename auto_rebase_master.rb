@@ -34,7 +34,7 @@ class AutoRebaseService
     end
 
     def rebase_with_master(branch)
-      `git checkout #{branch}` && `git rebase master` && `git push -f`
+      `git fetch && git checkout #{branch} && git rebase master && git push -f`
     end
 
     def open_pull_requests
