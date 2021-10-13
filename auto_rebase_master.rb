@@ -1,4 +1,6 @@
 require 'octokit'
 
 puts "Hello world"
-p ENV["GITHUB_TOKEN"]
+
+client = Octokit::Client.new(:access_token => ENV["GITHUB_TOKEN"])
+puts client.user.name
