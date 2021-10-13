@@ -47,7 +47,7 @@ class AutoRebaseService
 
       results << system("set -o xtrace")
 
-      results << system("git remote add fork git@github.com:#{repo}.git")
+      results << system("git remote add fork https://github.com/#{repo}.git")
       results << system("git fetch fork")
 
       # do the rebase
