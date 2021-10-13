@@ -41,18 +41,14 @@ class AutoRebaseService
       user_email = "#{user_name}@users.noreply.github.com"
 
       results = []
-      #results << system("git remote set-url origin git@github.com:#{base_repo}.git")
+
       results << system("git config --global user.email \"#{user_email}\"")
       results << system("git config --global user.name \"#{user_name}\"")
-
-      #results << system("git remote add fork git@github.com:#{head_repo}.git")
 
       results << system("set -o xtrace")
 
       # make sure branches are up-to-date
       results << system("git fetch origin")
-
-      results << system("git branch -D #{head_branch}")
 
       # do the rebase
       results << system("git checkout origin/#{head_branch} -b #{head_branch}")
