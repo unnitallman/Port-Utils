@@ -53,7 +53,7 @@ class AutoRebaseService
       # push back
       git_commands << "git push --force-with-lease fork #{head_branch}"
 
-      system(git_commands.join(";"))
+      system(git_commands.join(" && "))
     end
 
     def open_pull_requests
