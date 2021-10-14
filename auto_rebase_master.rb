@@ -77,17 +77,16 @@ class AutoRebaseService
 
       # system(git_commands.join(" && "))
 
-      cmd = "git remote add fork https://github.com/#{repo}.git"
+      puts `git branch`
 
-      `#{cmd}`
+      `git fetch origin`
 
-      `git fetch fork`
-
-      cmd = "git checkout fork/#{head_branch} -b #{head_branch}"
+      `git checkout origin/#{head_branch} -b #{head_branch}`
 
       puts `git branch`
-      `#{cmd}`
-      puts `git branch`
+
+      `git rebase #{base_branch}`
+
     end
 
     def open_pull_requests
