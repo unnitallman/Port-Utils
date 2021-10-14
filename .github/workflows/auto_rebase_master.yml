@@ -10,6 +10,6 @@ jobs:
     name: Auto-update
     runs-on: ubuntu-18.04
     steps:
-      - uses: unnitallman/auto-update@v2.1.4
+      - uses: unnitallman/auto-update@v2.1.5
         with:
           github_token: ${{ secrets.AUTOREBASE_TOKEN }}
