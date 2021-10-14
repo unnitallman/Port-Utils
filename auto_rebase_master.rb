@@ -1,4 +1,24 @@
 require 'octokit'
+require "open3"
+require "pp"
+
+command_list = [
+  "export MY_ENV_VAR=foobar",
+  "printenv MY_ENV_VAR"
+]
+
+executed_commands = []
+result = nil
+
+command_list.each do |command|
+  stdout, stderr, status = Open3.capture3(command)
+  result = status.exitstatus
+  executed_commands << [command, stdout, stderr, result]
+  break if result != 0
+end
+
+pp executed_commands
+puts "exited with #{result} exit status."
 
 class AutoRebaseService
   attr_reader :client, :repo
@@ -38,24 +58,30 @@ class AutoRebaseService
       user_name = pr.user.login
       user_email = "#{user_name}@users.noreply.github.com"
 
-      git_commands = []
+      # git_commands = []
 
-      git_commands << "git config --global user.email \"#{user_email}\""
-      git_commands << "git config --global user.name \"#{user_name}\""
+      # git_commands << "git config --global user.email \"#{user_email}\""
+      # git_commands << "git config --global user.name \"#{user_name}\""
 
-      git_commands << "git remote add fork https://github.com/#{repo}.git"
-      git_commands << "git fetch fork"
+      # git_commands << "git remote add fork https://github.com/#{repo}.git"
+      # git_commands << "git fetch fork"
 
-      # do the rebase
-      git_commands << "git checkout fork/#{head_branch} -b #{head_branch}"
-      git_commands << "git rebase fork/#{base_branch}"
+      # # do the rebase
+      # git_commands << "git checkout fork/#{head_branch} -b #{head_branch}"
+      # git_commands << "git rebase fork/#{base_branch}"
 
-      # push back
-      git_commands << "git push --force-with-lease fork #{head_branch}"
+      # # push back
+      # git_commands << "git push --force-with-lease fork #{head_branch}"
 
-      puts git_commands.join(" && ")
+      # puts git_commands.join(" && ")
 
-      system(git_commands.join(" && "))
+      # system(git_commands.join(" && "))
+
+      cmd = "git checkout fork/#{head_branch} -b #{head_branch}"
+
+      puts `git branch`
+      `#{cmd}`
+      puts `git branch`
     end
 
     def open_pull_requests
