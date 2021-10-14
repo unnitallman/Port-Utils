@@ -79,7 +79,7 @@ class AutoRebaseService
 
       cmd = "git remote add fork https://github.com/#{repo}.git"
 
-      `cmd`
+      `#{cmd}`
 
       `git fetch fork`
 
