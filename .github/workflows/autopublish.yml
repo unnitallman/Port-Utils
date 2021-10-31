@@ -3,6 +3,7 @@ name: PR-autopublish
 on: 
   status:
   deployment_status:
+  push:
   pull_request:
     types: [ labeled ]
 
