@@ -3,14 +3,14 @@ name: PR-automerge
 on: 
   status:
   pull_request:
-    types: [ opened, reopened, labeled ]
+    types: [ labeled ]
 
 jobs:
   Auto:
     name: Auto-merge
     runs-on: ubuntu-18.04
     steps:
-      - uses: unnitallman/pr-auto-merge@v0.40
+      - uses: unnitallman/pr-auto-merge@v0.53
         if: contains(github.event.pull_request.labels.*.name, 'mergepr')
         with:
           github_token: ${{ secrets.AUTOREBASE_TOKEN }}
