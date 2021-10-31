@@ -1,10 +1,6 @@
 name: PR-automerge
 
-on: 
-  status:
-    types: []
-  pull_request:
-      types: [ opened, reopened, labeled ]
+on: [status, pull_request]
 
 jobs:
   Auto:
