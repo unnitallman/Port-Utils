@@ -1,7 +1,7 @@
 name: PR-automerge
 
 on: 
-  check_run:
+  check_suite:
     types: [completed]
   pull_request:
     types: [ opened, reopened, labeled ]
