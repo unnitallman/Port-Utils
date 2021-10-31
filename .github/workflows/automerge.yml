@@ -10,6 +10,6 @@ jobs:
     name: Auto-merge
     runs-on: ubuntu-18.04
     steps:
-      - uses: unnitallman/pr-auto-merge@v0.1
+      - uses: unnitallman/pr-auto-merge@v0.2
         with:
           github_token: ${{ secrets.AUTOREBASE_TOKEN }}
