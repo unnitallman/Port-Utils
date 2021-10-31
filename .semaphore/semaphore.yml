@@ -10,5 +10,5 @@ blocks:
       jobs:
         - name: 'Job #1'
           commands:
-            - sleep 60
+            - sleep 20
             - checkout
