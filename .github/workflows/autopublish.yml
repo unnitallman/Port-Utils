@@ -11,7 +11,7 @@ jobs:
     name: Auto-publish
     runs-on: ubuntu-18.04
     steps:
-      - uses: unnitallman/pr-auto-publish@v0.1
+      - uses: unnitallman/pr-auto-publish@v0.11
         if: contains(github.event.pull_request.labels.*.name, 'makepr')
         env:
           GITHUB_TOKEN: ${{ secrets.AUTOREBASE_TOKEN }}
