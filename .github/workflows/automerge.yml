@@ -2,7 +2,7 @@ name: PR-automerge
 
 on:
   pull_request:
-    types: [ opened, reopened, labeled, unlabeled ]
+    types: [ opened, reopened, labeled ]
 
 jobs:
   Auto:
@@ -10,5 +10,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: unnitallman/pr-auto-merge@v0.3
+        if: contains(github.event.pull_request.labels.*.name, 'mergepr')
         with:
           github_token: ${{ secrets.AUTOREBASE_TOKEN }}
