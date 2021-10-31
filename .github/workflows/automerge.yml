@@ -1,9 +1,6 @@
 name: PR-automerge
 
-on:
-  push:
-    branches:
-      - master
+on: [label, pull_request]
 
 jobs:
   Auto:
