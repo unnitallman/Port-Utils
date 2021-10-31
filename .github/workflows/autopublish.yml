@@ -1,4 +1,4 @@
-name: PR-automerge
+name: PR-autopublish
 
 on: 
   status:
