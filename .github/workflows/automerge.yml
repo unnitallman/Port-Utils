@@ -10,7 +10,7 @@ jobs:
     name: Auto-merge
     runs-on: ubuntu-18.04
     steps:
-      - uses: unnitallman/pr-auto-merge@v0.61
+      - uses: unnitallman/pr-auto-merge@v0.90
         if: contains(github.event.pull_request.labels.*.name, 'mergepr')
-        with:
-          github_token: ${{ secrets.AUTOREBASE_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOREBASE_TOKEN }}
