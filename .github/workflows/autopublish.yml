@@ -1,0 +1,17 @@
+name: PR-automerge
+
+on: 
+  status:
+  deployment_status:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  Auto:
+    name: Auto-publish
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: unnitallman/pr-publish-merge@v0.1
+        if: contains(github.event.pull_request.labels.*.name, 'makepr')
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOREBASE_TOKEN }}
